@@ -1,7 +1,7 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn } from "typeorm";
 
 
-export interface IUpdateProductDTO extends Omit<Products, 'createdAt' | 'updatedAt'> {};
+export interface IUpdateProductDTO extends Omit<Products, 'name' | 'createdAt' | 'updatedAt'> {};
 
 @Entity()
 export default class Products {
