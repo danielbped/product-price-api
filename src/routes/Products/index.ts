@@ -10,6 +10,35 @@ const { validate } = new ProductValidation();
 
 const productController = new ProductController();
 
+/**
+ * @openapi
+ * /product/validate:
+ *   post:
+ *     tags:
+ *       - Product
+ *     description: Valida os produtos a serem atualizados
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ValidateProductInput'
+ *     responses:
+ *       200:
+ *         description: Sucesso, os produtos estão aptos a serem atualizados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidateProductsResponse'
+ *       500:
+ *         description: Erro interno do sistema.
+ *       400:
+ *         description: Dados inválidos, para cada produto contendo erro, uma mensagem de erro será exibida junto do código do produto.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidateProductsErrorResponse'
+*/
 router.post('/validate', async (req: Request, res: Response) => {
   try {
     const { products } = req.body;
@@ -25,6 +54,31 @@ router.post('/validate', async (req: Request, res: Response) => {
   };
 });
 
+/**
+ * @openapi
+ * /product:
+ *   put:
+ *     tags:
+ *       - Product
+ *     description: Atualiza os produtos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ValidateProductInput'
+ *     responses:
+ *       200:
+ *         description: Sucesso, os produtos foram atualizados.
+ *       500:
+ *         description: Erro interno do sistema.
+ *       400:
+ *         description: Dados inválidos, para cada produto contendo erro, uma mensagem de erro será exibida junto do código do produto.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidateProductsErrorResponse'
+*/
 router.put('/', async (req: Request, res: Response) => {
   try {
     const { products } = req.body;

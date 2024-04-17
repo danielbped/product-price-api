@@ -10,16 +10,6 @@ const options: swaggerJsdoc.Options = {
       title: 'Product Price API',
       version,
     },
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
-    },
-    security: [{ bearerAuth: [] }],
   },
   apis: ['./src/routes/**/*.ts', './src/schema/*.ts']
 };
