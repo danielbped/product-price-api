@@ -14,7 +14,7 @@ export default class ProductModel {
   };
 
   public async update(product: IUpdateProductDTO): Promise<boolean> {
-    await this.productRepository.update(product.code, product);
+    await this.productRepository.update(product.code, { sales_price: product.sales_price });
 
     return true;
   };

@@ -1,4 +1,4 @@
-import { IUpdateProductDTO } from "../../entity/Products";
+import { IProductValidation, IUpdateProductDTO } from "../../entity/Products";
 import ProductService from "../../services/Product";
 
 export default class ProductController {
@@ -8,7 +8,11 @@ export default class ProductController {
     this.productService = new ProductService();
   };
 
-  public async update(product: IUpdateProductDTO): Promise<any> {
-    return this.productService.update(product);
+  public async update(products: IUpdateProductDTO[]): Promise<any> {
+    return this.productService.update(products);
+  };
+
+  public async validate(products: IUpdateProductDTO[]): Promise<IProductValidation[]> {
+    return this.productService.validate(products);
   };
 };

@@ -4,59 +4,79 @@ import ErrorMessage from '../utils/ErrorMessage';
 import ProductService from '../services/Product';
 import ComparePrices from '../helper/comparePrices';
 
+interface Errors {
+  code: number;
+  message: string;
+};
+
 export default class ProductValidation {
   private productService = new ProductService();
   private comparePrices = new ComparePrices();
 
   public constructor() {
-    this.validate = this.validate.bind(this)
+    this.validate = this.validate.bind(this);
   };
 
   public async validate(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     try {
-      const { code, cost_price, sales_price } = req.body;
+      const { products } = req.body;
+      const errors: Errors[] = [];
 
-      if (!code) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: ErrorMessage.MissingProductCode,
-        });
-      }
+      for (const product of products) {
+        const { code, sales_price } = product;
 
-      const product = await this.productService.findByCode(code);
+        if (!code) {
+          errors.push({
+            message: ErrorMessage.MissingProductCode,
+            code
+          });
+          continue;
+        };
 
-      if (!product) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: ErrorMessage.ProductNotFount,
-        });
-      }
+        const foundProduct = await this.productService.findByCode(code);
 
-      if (sales_price < cost_price) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: ErrorMessage.SalePriceBellowCostPrice,
-        });
+        if (!foundProduct) {
+          errors.push({
+            message: ErrorMessage.ProductNotFound,
+            code
+          });
+          continue;
+        };
+
+        if (isNaN(sales_price)) {
+          errors.push({
+            message: ErrorMessage.InvalidProductPrice,
+            code
+          });
+          continue;
+        }
+
+        if (sales_price < foundProduct.cost_price) {
+          errors.push({
+            message: ErrorMessage.SalePriceBellowCostPrice,
+            code
+          });
+        };
+
+        if (this.comparePrices.isHigher(foundProduct.sales_price, sales_price)) {
+          errors.push({
+            message: ErrorMessage.HigherThanItself,
+            code
+          });
+        };
+
+        if (this.comparePrices.isLower(foundProduct.sales_price, sales_price)) {
+          errors.push({
+            message: ErrorMessage.LowerThanItself,
+            code
+          });
+        };
       };
 
-      if (this.comparePrices.isHigher(product.sales_price, sales_price)) {
+      if (errors.length > 0) {
         return res.status(StatusCodes.BAD_REQUEST).json({
-          message: `sales_price ${ErrorMessage.HigherThanItself}`,
-        });
-      };
-
-      if (this.comparePrices.isLower(product.cost_price, cost_price)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: `sales_price ${ErrorMessage.LowerThanItself}`,
-        });
-      };
-
-      if (this.comparePrices.isHigher(product.cost_price, cost_price)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: `cost_price ${ErrorMessage.HigherThanItself}`,
-        });
-      };
-
-      if (this.comparePrices.isLower(product.sales_price, sales_price)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          message: `cost_price ${ErrorMessage.LowerThanItself}`,
+          message: ErrorMessage.NoneProductsUpdated,
+          errors
         });
       };
 
