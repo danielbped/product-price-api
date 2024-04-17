@@ -1,6 +1,6 @@
 # Product Price
 
-Trata-se da API de uma simulação de uma aplicação utilizada para atualizar o valor de determinados produtos, onde é possível validar as informações enviadas para atualizar os produtos e, caso os dados estejam de acordo com o padrão, atualizar uma listagem de produtos.
+Trata-se da API de uma aplicação utilizada para atualizar o valor de determinados produtos, onde é possível validar as informações enviadas para atualizar os produtos e, caso os dados estejam de acordo com o padrão, atualizar uma listagem de produtos.
 
 # Sumário
 - [Licença](#licenca)
