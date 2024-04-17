@@ -1,7 +1,13 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn } from "typeorm";
 
+export interface IProductValidation {
+  code: number,
+  name?: string,
+  sales_price?: number,
+  new_sales_price: number
+}
 
-export interface IUpdateProductDTO extends Omit<Products, 'name' | 'createdAt' | 'updatedAt'> {};
+export interface IUpdateProductDTO extends Omit<Products, 'cost_price' | 'name' | 'createdAt' | 'updatedAt'> {};
 
 @Entity()
 export default class Products {

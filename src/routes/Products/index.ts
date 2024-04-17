@@ -10,14 +10,28 @@ const { validate } = new ProductValidation();
 
 const productController = new ProductController();
 
-router.put('/:code', async (req: Request, res: Response) => {
+router.post('/validate', async (req: Request, res: Response) => {
   try {
-    const { code } = req.params;
-    const product = req.body;
+    const { products } = req.body;
 
-    const result = await productController.update({ code, ...product });
+    const result = await productController.validate(products);
 
     return res.status(StatusCodes.OK).json(result);
+  } catch (err: any) {
+    console.error(err);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: err.message || ErrorMessage.InternalServerError
+    });
+  };
+});
+
+router.put('/', async (req: Request, res: Response) => {
+  try {
+    const { products } = req.body;
+
+    await productController.update(products);
+
+    return res.status(StatusCodes.OK).send();
   } catch (err: any) {
     console.error(err);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
