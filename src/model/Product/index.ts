@@ -18,4 +18,8 @@ export default class ProductModel {
 
     return true;
   };
+
+  public async getAll(): Promise<Products[]> {
+    return this.productRepository.find();
+  }
 };

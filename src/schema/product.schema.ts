@@ -25,6 +25,23 @@ import { object, array, number } from "zod";
  *             type: number
  *           new_sales_price:
  *             type: number
+ *     ListProductsResponse:
+ *       type: array
+ *       items:
+ *         type: object
+ *         properties:
+ *           code:
+ *             type: number
+ *           name:
+ *             type: string
+ *           sales_price:
+ *             type: number
+ *           cost_price:
+ *             type: number
+ *           createdAt:
+ *             type: string
+ *           updatedAt:
+ *             type: string
  *
  *     ValidateProductsErrorResponse:
  *       type: object

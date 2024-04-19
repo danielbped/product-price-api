@@ -39,7 +39,7 @@ const productController = new ProductController();
  *             schema:
  *               $ref: '#/components/schemas/ValidateProductsErrorResponse'
 */
-router.post('/validate', async (req: Request, res: Response) => {
+router.post('/validate', validate, async (req: Request, res: Response) => {
   try {
     const { products } = req.body;
 
@@ -79,13 +79,43 @@ router.post('/validate', async (req: Request, res: Response) => {
  *             schema:
  *               $ref: '#/components/schemas/ValidateProductsErrorResponse'
 */
-router.put('/', async (req: Request, res: Response) => {
+router.put('/', validate, async (req: Request, res: Response) => {
   try {
     const { products } = req.body;
 
     await productController.update(products);
 
-    return res.status(StatusCodes.OK).send();
+    return res.status(StatusCodes.NO_CONTENT).send();
+  } catch (err: any) {
+    console.error(err);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: err.message || ErrorMessage.InternalServerError
+    });
+  };
+});
+
+/**
+ * @openapi
+ * /product:
+ *  get:
+ *     tags:
+ *     - Product
+ *     description: Retorna uma lista com todos os produtos
+ *     responses:
+ *       200:
+ *         description: Retorna uma lista com todos os produtos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ListProductsResponse'
+ *       500:
+ *         description: Erro interno do sistema.
+*/
+router.get('/', async (_req: Request, res: Response) => {
+  try {
+    const result = await productController.getAll();
+
+    return res.status(StatusCodes.OK).send(result);
   } catch (err: any) {
     console.error(err);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -96,7 +126,6 @@ router.put('/', async (req: Request, res: Response) => {
 
 const product = (root: Router) => {
   root.use('/product',
-    validate,
     router
   )
 };

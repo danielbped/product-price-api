@@ -44,4 +44,13 @@ export default class ProductService {
       throw new Error(err.message || ErrorMessage.UnexpectedError);
     };
   };
+
+  public async getAll(): Promise<Products[]> {
+    try {
+      return this.productModel.getAll();
+    } catch (err: any) {
+      console.error(err);
+      throw new Error(err.message || ErrorMessage.UnexpectedError);
+    };
+  }
 };
