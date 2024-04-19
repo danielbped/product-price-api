@@ -9,7 +9,16 @@ export default class PackModel {
     this.packRepository = AppDataSource.getRepository(Packs);
   };
 
+  public async findByProductCode(code: number): Promise<Packs[]> {
+    return this.packRepository.find({ where: { product_id: code } });
+  };
+
   public async getAll(): Promise<Packs[]> {
     return this.packRepository.find();
+  };
+
+  public async updateValue(id: number, value: number): Promise<boolean> {
+    const result = await this.packRepository.update({ id }, { value });
+    return result.affected ? result.affected > 0 : false;
   }
 };

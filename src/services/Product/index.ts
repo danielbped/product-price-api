@@ -2,9 +2,15 @@
 import Products, { IProductValidation, IUpdateProductDTO } from "../../entity/Products";
 import ProductModel from "../../model/Product";
 import ErrorMessage from "../../utils/ErrorMessage";
+import PackService from "../Pack";
 
 export default class ProductService {
   private productModel = new ProductModel();
+  private packService: PackService;
+
+  constructor() {
+    this.packService = new PackService();
+  }
 
   public async findByCode(code: number): Promise<Products | null> {
     try {
@@ -38,7 +44,18 @@ export default class ProductService {
 
   public async update(products: IUpdateProductDTO[]): Promise<void> {
     try {
-      for (const product of products) { await this.productModel.update(product) };
+      for (const product of products) {
+        await this.productModel.update(product)
+
+        const packs = await this.packService.findByProductCode(product.code);
+
+        if (packs.length > 0) {
+          for (const pack of packs) {
+            const newValue = pack.qty * product.sales_price;
+            await this.packService.updateValue(pack.id, newValue);
+          }
+        }
+      };
     } catch (err: any) {
       console.error(err);
       throw new Error(err.message || ErrorMessage.UnexpectedError);

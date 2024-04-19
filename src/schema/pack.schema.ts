@@ -13,6 +13,8 @@
  *             type: string
  *           product_id:
  *             type: string
+ *           value:
+ *             type: number
  *           qty:
  *             type: string
  *           createdAt:

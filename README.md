@@ -120,6 +120,7 @@ O banco de dados foi desenvolvido utilizando **MySQL** com o auxílio da ORM **T
   id              number
   pack_id         number
   product_id      number
+  value           number
   qty             number
   createdAt       Date
   updatedAt       Date

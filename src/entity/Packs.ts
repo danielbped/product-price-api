@@ -23,9 +23,20 @@ export default class Packs {
   @Column({ type: "bigint" })
   public readonly qty!: number;
 
+  @Column({ type: "bigint" })
+  public readonly value!: number;
+
   @CreateDateColumn()
   public readonly createdAt!: Date;
 
   @UpdateDateColumn()
   public readonly updatedAt!: Date;
+
+  public constructor(props: Omit<Packs, 'id' | 'createdAt' | 'updatedAt'>, value?: number) {
+    Object.assign(this, props);
+
+    if (!value && this.product && this.product.sales_price && this.qty) {
+      this.value = this.qty * this.product.sales_price;
+    };
+  };
 };
