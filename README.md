@@ -9,6 +9,7 @@ Trata-se da API de uma [aplicação](https://github.com/danielbped/product-price
   - [.env](#env)
   - [Iniciando o projeto](#start)
 - [Rotas e autenticação](#rotas)
+- [Regras de negócio](#regras)
 - [Banco de dados](#db)
 
 # Licença <a name="licenca"></a>
@@ -93,6 +94,11 @@ Caso tudo esteja de acordo, você verá as seguintes mensagens no terminal:
 
 Para visualizar as rotas disponíveis, também como seus respectivos conteúdos de body e parametros, basta navegar para a rota **http://localhost:3000/docs**, onde está disponibilizada uma documentação exclusiva das rotas, desenvolvida utilizando Swagger.
 
+## Regras de negócio <a name="regras"></a>
+
+Ao atualizar um produto, deve-se levar em consideração as seguintes regras de negócio:
+- O novo valor não deve ser abaixo do preço de custo do produto.
+- O novo valor não deve ser 10% acima ou 10% abaixo do valor atual do produto.
 
 ## Banco de dados <a name="db"></a>
 
