@@ -64,14 +64,14 @@ Na raiz do projeto, será necessário criar um arquivo .env, com as seguintes in
 
 ```
 MYSQL_USER=root
-MYSQL_ROOT_PASSWORD=
-MYSQL_PASSWORD=
+MYSQL_ROOT_PASSWORD=password
+MYSQL_PASSWORD=password
 MYSQL_DB=product-price
 HOST_DB=localhost
 
 ```
 
-Um arquivo com estas definições já está presente no projeto, o **.env.example**, para que funcione corretamente, basta renomear para apenas **.env**, e alterar os dados **MYSQL_USER**, **MYSQL_PASSWORD** e **MYSQL_ROOT_PASSWORD** de acordo com os dados de usuário do banco de dados local. Em relação às outras variáveis, podem ser usadas as credenciais presentes no arquivo, são responsáveis pela criação do banco de dados.
+Um arquivo com estas definições já está presente no projeto, o **.env.example**, para que funcione corretamente, basta renomear para apenas **.env**, são responsáveis pela criação do banco de dados. Caso deseje utilizar um banco de dados local ao invés do banco fornecido na imagem do Docker, basta alterar os dados de acordo com os dados de usuário do banco de dados local. Em relação às outras variáveis.
 
 ## Iniciando o projeto <a name="start"></a>
 
