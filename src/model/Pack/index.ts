@@ -14,7 +14,7 @@ export default class PackModel {
   };
 
   public async getAll(): Promise<Packs[]> {
-    return this.packRepository.find();
+    return this.packRepository.find({ relations: ['product'] });
   };
 
   public async updateValue(id: number, value: number): Promise<boolean> {
