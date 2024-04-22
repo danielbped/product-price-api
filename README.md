@@ -122,6 +122,7 @@ O banco de dados foi desenvolvido utilizando **MySQL** com o auxílio da ORM **T
   product_id      number
   value           number
   qty             number
+  product         Products
   createdAt       Date
   updatedAt       Date
 
